@@ -19,3 +19,4 @@ coverage
 temp
 **/*/.idea
 **/dist
+.env
