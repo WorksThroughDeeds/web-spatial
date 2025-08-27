@@ -1,0 +1,21 @@
+
+**/*/xcuserdata
+**/*/visionOS/web-spatial/web-project
+**/*/visionOS/icon.*
+**/*/visionOS/build/**
+
+# We only allow pnpm lock files
+**/*/yarn.lock
+**/*/package-lock.json
+# No node_modules anywhere
+**/*/node_modules/
+node_modules
+.DS_Store
+*.log
+.pnpm-store
+
+.vscode
+coverage
+temp
+**/*/.idea
+**/dist

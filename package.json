@@ -1,0 +1,78 @@
+{
+  "name": "webspatial-sdk",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks",
+    "buildPackages": "pnpm -r --filter \"@webspatial/*\" run build",
+    "setup": "pnpm install && npm run buildPackages",
+    "watchNPM": "concurrently \"cd packages/core/ && npm run start\" \"cd packages/react/ && npm run start\"",
+    "testServer": "cd apps/test-server/ && npm run dev -- --host",
+    "dev": "npm run testServer",
+    "xcode": "open packages/visionOS/web-spatial.xcodeproj",
+    "androidStudio": "open -a /Applications/Android\\ Studio.app packages/androidXR",
+    "adbDevPorts": "adb reverse tcp:35729 tcp:35729 && adb reverse tcp:5173 tcp:5173",
+    "test": "concurrently \"pnpm -r --filter '@webspatial/*' run test\" \"tsc -p apps/test-server/tsconfig.json\"",
+    "ciTest": "cd tests/ci-test/ && pnpm run test",
+    "format": "pnpm -r run format",
+    "ci:publish": "changeset publish",
+    "changeset": "changeset",
+    "changeset:pre-enter": "changeset pre enter alpha",
+    "changeset:pre-exit": "changeset pre exit alpha",
+    "generateStaticSite": "./tools/scripts/generateWebsite.sh"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged && pnpm test"
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --write"
+    ],
+    "*.swift": [
+      "swiftformat"
+    ],
+    "*": [
+      "node ./tools/scripts/check-filesize.js",
+      "node ./tools/scripts/check-valid-characters.js"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webspatial/webspatial-sdk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/webspatial/webspatial-sdk/issues"
+  },
+  "homepage": "https://github.com/webspatial/webspatial-sdk#readme",
+  "devDependencies": {
+    "@changesets/cli": "^2.29.2",
+    "@vitest/coverage-v8": "^3.0.9",
+    "concurrently": "^8.2.2",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "simple-git-hooks": "^2.11.1",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.9"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "pnpm": {
+    "overrides": {
+      "react@>=0.0.1 <0.14.0": ">=0.14.0",
+      "cli@<1.0.0": ">=1.0.0",
+      "esbuild@<=0.24.2": ">=0.25.0",
+      "prismjs@<1.30.0": ">=1.30.0",
+      "@babel/runtime@<7.26.10": ">=7.26.10",
+      "@babel/helpers@<7.26.10": ">=7.26.10",
+      "vite@>=6.2.0 <6.2.3": ">=6.2.3",
+      "vite@>=6.2.0 <6.2.4": ">=6.2.4"
+    }
+  }
+}
